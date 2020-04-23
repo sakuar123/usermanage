@@ -1,0 +1,61 @@
+package com.sakura.usermanage.common.util;
+
+
+import com.alibaba.fastjson.JSON;
+import com.sakura.usermanage.common.Enum.CommonsCodeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Collections;
+
+/**
+ * 返回给前端的Json容器工具
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class JsonResult<T> {
+
+    /**
+     * 返回码
+     */
+    private Integer code;
+    /**
+     * 返回消息
+     */
+    private String message;
+    /**
+     * 返回数据
+     */
+    private T data;
+
+    public static <T> JsonResult success(T data) {
+        return JsonResult
+                .builder()
+                .code(CommonsCodeEnum.success.getCode())
+                .message(CommonsCodeEnum.success.getName())
+                .data(data)
+                .build();
+    }
+
+    public static JsonResult fail(Exception e) {
+        return JsonResult
+                .builder()
+                .code(CommonsCodeEnum.fail.getCode())
+                .message(e.getMessage())
+                .data(Collections.EMPTY_MAP)
+                .build();
+    }
+
+    public static JsonResult fail(Throwable e) {
+        return JsonResult
+                .builder()
+                .code(CommonsCodeEnum.fail.getCode())
+                .message(e.getMessage())
+                .data(Collections.EMPTY_MAP)
+                .build();
+    }
+}
