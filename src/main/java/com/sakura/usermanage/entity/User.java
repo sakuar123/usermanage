@@ -17,7 +17,7 @@ import java.util.Date;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
     @Column(name = "userCode")
     private String userCode;

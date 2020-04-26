@@ -1,45 +1,51 @@
 package com.sakura.usermanage;
 
 import com.alibaba.fastjson.JSON;
-import com.sakura.usermanage.common.util.JsonResult;
-import com.sakura.usermanage.dao.UserMapper;
+import com.google.common.collect.Maps;
+import com.sakura.usermanage.dao.generator.UserGeneratorMapper;
+import com.sakura.usermanage.dao.mapper.UserMapper;
+import com.sakura.usermanage.entity.Role;
 import com.sakura.usermanage.entity.User;
-import com.sakura.usermanage.service.JdbcTmplUserService;
 import org.junit.jupiter.api.Test;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
 import java.util.List;
+
+import static tk.mybatis.mapper.entity.Example.Criteria;
+
 
 @SpringBootTest
 class UsermanageApplicationTests {
 
+	@Autowired
+	private UserMapper userMapper;
+
+	@Test
+	void t3() {
+		List<User> list = userMapper.select(Maps.newHashMap());
+		System.out.println(JSON.toJSONString(list));
+	}
+
+	@Autowired
+	private UserGeneratorMapper userGeneratorMapper;
+	@Test
+	void t1() {
+//		Example example = new Example(User.class);
+//		example.createCriteria().andEqualTo("id", 1);
+//		List<User> list = userGeneratorMapper.selectByExample(example);
+        List<User> list = userGeneratorMapper.select(User.builder().id(1).build());
+		System.out.println(JSON.toJSONString(list));
+	}
+
+	@Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
+
     @Test
-    void contextLoads() {
-    }
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Test
-    void t1() {
-        System.out.println(JsonResult.success(userMapper.select(null)));
-    }
-
-    @Autowired
-    private JdbcTmplUserService jdbcTmplUserService;
-
-    @Test
-    void t2() {
-        User user = jdbcTmplUserService.getUser(1);
-        List<User> userList = jdbcTmplUserService.findUserList("a", 1);
-        userList.forEach(user1 -> {
-            user1.setCreatedBy(1L);
-            user1.setCreationDate(new Date());
-        });
-        System.out.println(JSON.toJSON(user));
-        System.out.println(JSON.toJSON(userList));
+    public void t2() {
+        List<Role> list = sqlSessionTemplate.selectList("RoleMapper.select");
+        System.out.println(JSON.toJSONString(list));
     }
 }

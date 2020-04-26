@@ -9,6 +9,9 @@ import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
+/**
+ * springBoot全局监听器:监听程序销毁的时候
+ */
 @Slf4j
 @Component
 public class SpringBootEndListener implements ApplicationListener<ContextClosedEvent> {
