@@ -1,7 +1,9 @@
 package com.sakura.usermanage.common.util;
 
-import java.util.Random;
-import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
+
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class CommonsUtil {
 
@@ -19,5 +21,35 @@ public class CommonsUtil {
         while (ret < min)
             ret += rd.nextInt(max - min);
         return ret;
+    }
+
+    public static boolean isBlank(Object o) {
+        if (o == null) {
+            return true;
+        }
+        if (o instanceof Optional) {
+            return !((Optional) o).isPresent();
+        }
+        // 字符串
+        if (o instanceof CharSequence) {
+            return StringUtils.isBlank((CharSequence) o);
+        }
+        // 数组
+        if (o.getClass().isArray()) {
+            return Array.getLength(o) == 0;
+        }
+        // 集合
+        if (o instanceof Collection) {
+            return ((Collection) o).isEmpty();
+        }
+        // Map
+        if (o instanceof Map) {
+            return ((Map) o).isEmpty();
+        }
+        return false;
+    }
+
+    public static boolean isNotBlank(Object o) {
+        return !isBlank(o);
     }
 }

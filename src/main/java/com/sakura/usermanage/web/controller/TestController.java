@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,12 +20,13 @@ public class TestController {
 
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/getUserList")
+    @ApiOperation("获取用户集合")
+    @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
     public JsonResult<User> getUserList() {
         return userService.getUserList();
     }
 
-    @RequestMapping("/hello")
+    @RequestMapping(value = "/hello",method = RequestMethod.GET)
     @ApiOperation("say Hello")
     public String hello() {
         return "hello,world";
