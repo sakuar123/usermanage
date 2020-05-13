@@ -33,17 +33,16 @@ class UsermanageApplicationTests {
 
 
 	public static void main(String[] args) {
-		String passwrod = MD5Util.getMD5("123456");
-		System.out.println(MD5Util.getMD5("123456"));
-		System.out.println(passwrod);
-//		JwtUtil.JwtUser jwtUser = new JwtUtil.JwtUser();
-//		jwtUser.setId("1193");
-//		jwtUser.setName("admin");
-//		jwtUser.setPassword(passwrod);
-//		String token = JwtUtil.createJWT(jwtUser);
-//		System.out.println(token);
-//		Claims claims = JwtUtil.parseJWT(token, jwtUser);
-//		System.out.println(JSON.toJSONString(claims));
+//		String passwrod = MD5Util.getMD5("123456");
+//		System.out.println(MD5Util.getMD5("123456"));
+//		System.out.println(passwrod);
+		JwtUtil.JwtUser jwtUser = new JwtUtil.JwtUser();
+		jwtUser.setId("1193");
+		jwtUser.setName("admin");
+		String token = JwtUtil.createJWT(jwtUser);
+		System.out.println(token);
+		Claims claims = JwtUtil.parseJWT(token);
+		System.out.println(JSON.toJSONString(claims));
 	}
 
 	@Test

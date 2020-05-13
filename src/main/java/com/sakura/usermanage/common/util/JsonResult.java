@@ -58,6 +58,15 @@ public class JsonResult<T> {
 				.build();
 	}
 
+	public static JsonResult fail(String message) {
+		return JsonResult
+				.builder()
+				.code(CommonsCodeEnum.fail.getCode())
+				.message(message)
+				.data(Collections.EMPTY_MAP)
+				.build();
+	}
+
 	public static JsonResult fail(Throwable e) {
 		return JsonResult
 				.builder()

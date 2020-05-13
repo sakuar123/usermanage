@@ -26,6 +26,9 @@ public class JwtUtil {
 	/*失效时间,默认为1个小时*/
 	private final static Date EXPIRATION_TIME = DateUtils.addHours(new Date(), +1);
 
+	/*生成签名的时候使用的秘钥secret*/
+	private final static String JWT_KEY = "NBMcTwQaqkJnPzs9zhwWusoRIiKiPaFIxO8m6heDIdvgRX4unbzNp0rM8XE3s6Er";
+
 	/**
 	 * 生成jwt
 	 * @param jwtUser
@@ -38,9 +41,8 @@ public class JwtUtil {
 	/**
 	 * 用户登录成功后生成Jwt
 	 * 使用Hs256算法  私匙使用用户密码
-	 *
 	 * @param expirationDate jwt过期时间
-	 * @param user  登录成功的user对象
+	 * @param user 登录成功的user对象
 	 * @return
 	 */
 	public static String createJWT(Date expirationDate, JwtUser user) {
@@ -50,8 +52,7 @@ public class JwtUtil {
 		Map<String, Object> claims = Maps.newHashMap();
 		claims.put("id", user.getId());
 		claims.put("user", JSON.toJSON(user));
-		//生成签名的时候使用的秘钥secret
-		String key = user.getPassword();
+
 		//生成签发人
 		String subject = user.getName();
 		//下面就是在为payload添加各种标准声明和私有声明了
@@ -66,7 +67,7 @@ public class JwtUtil {
 				//代表这个JWT的主体，即它的所有人，这个是一个json格式的字符串
 				.setSubject(subject)
 				//设置签名使用的签名算法和签名使用的秘钥
-				.signWith(signatureAlgorithm, key)
+				.signWith(signatureAlgorithm, JWT_KEY)
 				//
 				.setExpiration(expirationDate);
 		return builder.compact();
@@ -76,17 +77,13 @@ public class JwtUtil {
 	/**
 	 * Token的解密
 	 * @param token 加密后的token
-	 * @param user  用户的对象
 	 * @return
 	 */
-	public static Claims parseJWT(String token, JwtUser user) {
-		//签名秘钥，和生成的签名的秘钥一模一样
-		String key = user.getPassword();
-
+	public static Claims parseJWT(String token) {
 		//得到DefaultJwtParser
 		Claims claims = Jwts.parser()
 				//设置签名的秘钥
-				.setSigningKey(key)
+				.setSigningKey(JWT_KEY)
 				//设置需要解析的jwt
 				.parseClaimsJws(token).getBody();
 		return claims;

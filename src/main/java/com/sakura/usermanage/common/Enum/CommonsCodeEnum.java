@@ -3,6 +3,9 @@ package com.sakura.usermanage.common.Enum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author 李七夜
+ */
 @Getter
 @AllArgsConstructor
 public enum CommonsCodeEnum {
