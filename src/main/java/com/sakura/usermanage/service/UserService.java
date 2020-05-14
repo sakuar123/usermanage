@@ -22,11 +22,11 @@ public class UserService {
     private RedisTemplate<String, String> redisTemplate;
 
     public JsonResult<User> getUserList() {
-        List<User> list = JSON.parseArray(redisTemplate.opsForHash().get(CommonConstant.REDIS_USER_KEY, "userList").toString(), User.class);
-        if (CommonsUtil.isBlank(list)) {
-            list = userGeneratorMapper.selectAll();
-        }
-        redisTemplate.opsForHash().put(CommonConstant.REDIS_USER_KEY, "userList", JSON.toJSON(list));
+//        List<User> list = JSON.parseArray(redisTemplate.opsForHash().get(CommonConstant.REDIS_USER_KEY, "userList").toString(), User.class);
+//        if (CommonsUtil.isBlank(list)) {
+        List<User> list = userGeneratorMapper.selectAll();
+//        }
+//        redisTemplate.opsForHash().put(CommonConstant.REDIS_USER_KEY, "userList", JSON.toJSON(list));
         return JsonResult.success(list);
     }
 }
